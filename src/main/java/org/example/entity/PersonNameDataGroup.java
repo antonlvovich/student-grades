@@ -1,8 +1,8 @@
 package org.example.entity;
 
 public class PersonNameDataGroup extends PersonGroups{
-    public PersonNameDataGroup() {
-        super(33);
+    public PersonNameDataGroup(int size) {
+        super(size);
     }
 
     //первая буква фамилии ученика

@@ -3,8 +3,10 @@ package org.example.entity;
 public class PersonGroups {
     private final Node<Person>[] groups;
     private final int[] groupSizes;
+    private final int defaultSize;
 
     public PersonGroups(int defaultSize) {
+        this.defaultSize = defaultSize;
         groups = new Node[defaultSize];
         groupSizes = new int[defaultSize];
         for (int i = 0; i < defaultSize; i++)
@@ -24,6 +26,7 @@ public class PersonGroups {
             groupSizes[groupNumber] += 1;
         }
     }
+
     // возвращает студентов конкретной группы
     public Person[] getPersons(int groupNumber) {
         if (groupSizes[groupNumber] < 1)
@@ -37,5 +40,9 @@ public class PersonGroups {
             i++;
         }
         return personArray;
+    }
+
+    public int getDefaultSize() {
+        return defaultSize;
     }
 }

@@ -1,11 +1,11 @@
 package org.example.entity;
 
 public class Person {
-    private String surname;
-    private String firstName;
-    private int age;
-    private int group;
-    private Grade grade;
+    private final String surname;
+    private final String firstName;
+    private final int age;
+    private final int group;
+    private final Grade grade;
 
     public Person (String surname, String firstName, int age, int group, Grade grade) {
         this.surname = surname;

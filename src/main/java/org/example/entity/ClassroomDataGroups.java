@@ -1,8 +1,8 @@
 package org.example.entity;
 
 public class ClassroomDataGroups extends PersonGroups{
-    public ClassroomDataGroups() {
-        super(16);
+    public ClassroomDataGroups(int size) {
+        super(size);
     }
 
     //класс ученика
