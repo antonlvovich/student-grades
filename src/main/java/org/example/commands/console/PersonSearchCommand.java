@@ -1,5 +1,6 @@
-package org.example.commands;
+package org.example.commands.console;
 
+import org.example.commands.ICommand;
 import org.example.entity.DataGroup;
 import org.example.entity.Person;
 
@@ -24,5 +25,6 @@ public class PersonSearchCommand<T> implements ICommand {
             if (p.getSurname().equals(surname))
                 System.out.println(p);
         }
+        System.out.println("Поиск завершен");
     }
 }

@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.commands.*;
 import org.example.entity.*;
 import org.example.criterion.*;
 import org.example.util.DataLoader;
@@ -19,7 +18,7 @@ public class StudentService {
         this.personAgeDataGroups = new DataGroup<>();
         this.classroomDataGroups = new DataGroup<>();
         this.personNameDataGroup = new DataGroup<>();
-        List<String> personArray = loader.load("students.csv");
+        List<String> personArray = loader.load("src/main/resources/students.csv");
         for (String personString : personArray) {
             Person p = createStudent(personString);
             if (p == null) continue;
@@ -39,16 +38,15 @@ public class StudentService {
         return new Person(param[0], param[1], Integer.parseInt(param[2]), Integer.parseInt(param[3]), studentGrades);
     }
 
-    public void parseCommand(String commandType, String value) {
-        ICommand command;
-        switch (commandType)
-        {
-            case "-1" -> command = new MeanGradeCommand<>(classroomDataGroups, Integer.parseInt(value));
-            case "-2" -> command = new GradeACommand<>(personAgeDataGroups, Integer.parseInt(value));
-            case "-3" -> command = new PersonSearchCommand<>(personNameDataGroup, value.charAt(0), value);
-            default -> command = null;
-        }
-        if (command != null)
-            command.execute();
+    public DataGroup<Character> getPersonNameDataGroup() {
+        return personNameDataGroup;
+    }
+
+    public DataGroup<Integer> getClassroomDataGroups() {
+        return classroomDataGroups;
+    }
+
+    public DataGroup<Integer> getPersonAgeDataGroups() {
+        return personAgeDataGroups;
     }
 }

@@ -1,15 +1,15 @@
 package org.example;
 
-import org.example.util.CSVDataLoader;
-import org.example.service.StudentService;
+import org.example.commands.CommandBuilder;
+import org.example.commands.ECommandType;
 
 import java.util.Scanner;
 
 public class StudentApplication {
-    private final StudentService studentService;
+    private final CommandBuilder commandBuilder;
 
     public StudentApplication() {
-        studentService = new StudentService(new CSVDataLoader());
+        commandBuilder = new CommandBuilder();
     }
 
     public void exec() {
@@ -22,7 +22,8 @@ public class StudentApplication {
                 System.out.println("Ошибка ввода");
                 continue;
             }
-            studentService.parseCommand(stringArray[0], stringArray[1]);
+            ECommandType eCommandType = ECommandType.getType(stringArray[0]);
+            commandBuilder.parseCommand(eCommandType, stringArray[1]);
         }
     }
 
@@ -30,6 +31,9 @@ public class StudentApplication {
         System.out.println("""
                 -1 <число> -- средняя оценка в классе <>
                 -2 <число> -- поиск отличников среди учащихся возрастом <>
-                -3 <строка> -- поиск учеников с фамилией <>""");
+                -3 <строка> -- поиск учеников с фамилией <>
+                -4 <число> -- СУБД, средние оценки по предметам в классах <>
+                -5 <число> -- СУБД, список всех отличников старше <> лет
+                -6 <строка> -- СУБД, средняя оценка ученика с указанной фамилией""");
     }
 }

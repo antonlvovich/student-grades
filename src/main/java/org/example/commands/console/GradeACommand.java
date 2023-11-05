@@ -1,5 +1,6 @@
-package org.example.commands;
+package org.example.commands.console;
 
+import org.example.commands.ICommand;
 import org.example.entity.DataGroup;
 
 public class GradeACommand<T> implements ICommand {
