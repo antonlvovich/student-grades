@@ -1,0 +1,166 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "home-iot-api",
+    "description": "The API for the EatBacon IOT project",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ANTHONYLVOVICH_1/yaapi/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/person": {
+      "get": {
+        "tags": [
+          "postman"
+        ],
+        "summary": "Возвращает массив студентов из группы",
+        "description": "Возвращает массив студентов из группы",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "description": "Группа студентов",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Максимальное количество возвращаемых учащихся",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Был успешно возвращен массив студентов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Persons"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка ввода"
+          }
+        }
+      }
+    },
+    "/person/edit": {
+      "post": {
+        "tags": [
+          "postman"
+        ],
+        "summary": "Изменение оценки конкретного ученика (по ФИО и классу) и конкретного предмета",
+        "description": "Изменение оценки по предметам у конкретного ученика",
+        "requestBody": {
+          "description": "Ученик для изменения",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Оценки были успешно изменены",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Учащегося с таким данными нет"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Student": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Даниил"
+          },
+          "surname": {
+            "type": "string",
+            "example": "Абрамов"
+          },
+          "group": {
+            "type": "integer",
+            "format": "int32",
+            "example": 12
+          },
+          "grade": {
+            "type": "string",
+            "format": "byte",
+            "example": "{\"type\":\"integer\",\"format\":\"int32\",\"math\":4}"
+          }
+        }
+      },
+      "Persons": {
+        "type": "object",
+        "properties": {
+          "persons": {
+            "$ref": "#/components/schemas/Persons_persons"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        }
+      },
+      "Persons_persons": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Даниил"
+          },
+          "surname": {
+            "type": "string",
+            "example": "Абрамов"
+          },
+          "group": {
+            "type": "integer",
+            "format": "int32",
+            "example": 12
+          },
+          "meanGrade": {
+            "type": "number",
+            "format": "double",
+            "example": 5
+          }
+        }
+      }
+    }
+  }
+}
