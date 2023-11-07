@@ -1,11 +1,13 @@
 package org.example.entity;
 
+import org.example.dto.PersonDto;
+
 public class Person {
     private final String surname;
     private final String firstName;
     private final int age;
     private final int group;
-    private final Grade grade;
+    private Grade grade;
 
     public Person (String surname, String firstName, int age, int group, Grade grade) {
         this.surname = surname;
@@ -13,6 +15,10 @@ public class Person {
         this.age = age;
         this.group = group;
         this.grade = grade;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public int getAge() {
@@ -35,8 +41,18 @@ public class Person {
         return grade;
     }
 
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public boolean equals(PersonDto person) {
+        return this.firstName.equals(person.getName()) &&
+                this.surname.equals(person.getSurname()) &&
+                this.group == person.getGroup();
+    }
     @Override
     public String toString() {
         return firstName + " " + surname;
     }
+
 }

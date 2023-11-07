@@ -1,6 +1,7 @@
 package org.example.service;
 
-import org.example.dto.GradeDto;
+import org.example.dto.PersonMeanGradeDto;
+import org.example.dto.SubjectGradeDto;
 import org.example.dto.PersonDto;
 import org.example.util.DBConnectionManager;
 
@@ -11,14 +12,14 @@ import java.util.List;
 public class JDBCService {
     private static final String FIND_MEAN_GRADE_QUERY =
             """
-            select classId, subjectName, avg(mark) as markValue from grade where classId >= ?
+            select classId, subjectName, avg(mark) as markValue from grade where classId = ?
             group by classId, subjectName;""";
 
     private static final String FIND_ALL_GRADE_A_QUERY =
             """
             select lastName, firstName, class from person
             inner join grade on grade.studentId = PERSON.id
-            where age > ?
+            where age = ?
             group by PERSON.id
             having avg(mark) = 5;""";
 
@@ -28,8 +29,8 @@ public class JDBCService {
             from person inner join grade on grade.studentId = PERSON.id where lastName = ?\s
             group by person.id""";
 
-    public List<GradeDto> getMeanGradeByDiscipline(int groupNumber) {
-        List<GradeDto> grades = new ArrayList<>();
+    public List<SubjectGradeDto> getMeanGradeByDiscipline(int groupNumber) {
+        List<SubjectGradeDto> grades = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -39,7 +40,7 @@ public class JDBCService {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
             {
-                GradeDto grade = new GradeDto(
+                SubjectGradeDto grade = new SubjectGradeDto(
                         resultSet.getString("subjectName"),
                         resultSet.getInt("classId"),
                         resultSet.getDouble("markValue")
@@ -82,8 +83,8 @@ public class JDBCService {
         return users;
     }
 
-    public List<PersonDto> getBySurname(String surname) {
-        List<PersonDto> users = new ArrayList<>();
+    public List<PersonMeanGradeDto> getBySurname(String surname) {
+        List<PersonMeanGradeDto> users = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -94,7 +95,7 @@ public class JDBCService {
 
             while (resultSet.next())
             {
-                PersonDto user = new PersonDto(
+                PersonMeanGradeDto user = new PersonMeanGradeDto(
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getInt("class"),

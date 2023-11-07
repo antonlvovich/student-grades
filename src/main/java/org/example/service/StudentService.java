@@ -1,9 +1,13 @@
 package org.example.service;
 
+import org.example.dto.GroupDto;
+import org.example.dto.PersonDto;
+import org.example.dto.PersonMeanGradeDto;
 import org.example.entity.*;
 import org.example.criterion.*;
 import org.example.util.DataLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentService {
@@ -18,7 +22,7 @@ public class StudentService {
         this.personAgeDataGroups = new DataGroup<>();
         this.classroomDataGroups = new DataGroup<>();
         this.personNameDataGroup = new DataGroup<>();
-        List<String> personArray = loader.load("src/main/resources/students.csv");
+        List<String> personArray = loader.load("C:\\Users\\1\\IdeaProjects\\student-grades\\src\\main\\resources\\students.csv");
         for (String personString : personArray) {
             Person p = createStudent(personString);
             if (p == null) continue;
@@ -26,16 +30,6 @@ public class StudentService {
             classroomDataGroups.addPerson(p, classCriterion.getGroup(p));
             personNameDataGroup.addPerson(p, surnameCriterion.getGroup(p));
         }
-    }
-
-    private Person createStudent(String line) {
-        String[] param = line.split(";");
-        if (param.length != 10) return null;
-        int[] marks = new int[6];
-        for (int i = 4; i < param.length; i++)
-            marks[i - 4] = Integer.parseInt(param[i]);
-        Grade studentGrades = new Grade(marks);
-        return new Person(param[0], param[1], Integer.parseInt(param[2]), Integer.parseInt(param[3]), studentGrades);
     }
 
     public DataGroup<Character> getPersonNameDataGroup() {
@@ -48,5 +42,32 @@ public class StudentService {
 
     public DataGroup<Integer> getPersonAgeDataGroups() {
         return personAgeDataGroups;
+    }
+
+    private Person createStudent(String line) {
+        String[] param = line.split(";");
+        if (param.length != 10) return null;
+        int[] marks = new int[6];
+        for (int i = 4; i < param.length; i++)
+            marks[i - 4] = Integer.parseInt(param[i]);
+        Grade studentGrades = new Grade(marks);
+        return new Person(param[0], param[1], Integer.parseInt(param[2]), Integer.parseInt(param[3]), studentGrades);
+    }
+
+    public GroupDto getMeanGroupGrade(Integer group, int limit) {
+        List<PersonMeanGradeDto> personDto = new ArrayList<>();
+        classroomDataGroups.getPersons(group).forEach(x -> personDto.add(new PersonMeanGradeDto(x)));
+        if (limit > personDto.size())
+            limit = personDto.size();
+        List<PersonMeanGradeDto> finalPersonDto = limit == -1 ? personDto : personDto.subList(0, limit);
+        return new GroupDto(finalPersonDto);
+    }
+
+    public void changePersonGrade(PersonDto person) {
+        if (!person.isValid()) return;
+        classroomDataGroups.getPersons(person.getGroup()).forEach(x -> {
+            if (x.equals(person))
+                x.setGrade(person.getGrade());
+        });
     }
 }
