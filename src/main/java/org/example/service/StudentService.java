@@ -63,11 +63,15 @@ public class StudentService {
         return new GroupDto(finalPersonDto);
     }
 
-    public void changePersonGrade(PersonDto person) {
-        if (!person.isValid()) return;
-        classroomDataGroups.getPersons(person.getGroup()).forEach(x -> {
-            if (x.equals(person))
+    public boolean changePersonGrade(PersonDto person) {
+        if (!person.isValid()) return false;
+        boolean fl = false;
+        for (var x : classroomDataGroups.getPersons(person.getGroup())) {
+            if (x.equals(person)) {
                 x.setGrade(person.getGrade());
-        });
+                fl = true;
+            }
+        }
+        return fl;
     }
 }

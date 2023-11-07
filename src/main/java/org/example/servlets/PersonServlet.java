@@ -22,7 +22,8 @@ public class PersonServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         String reqStr = new String(req.getInputStream().readAllBytes());
         var request = mapper.readValue(reqStr, PersonDto.class);
-        studentService.changePersonGrade(request);
+        if (!studentService.changePersonGrade(request))
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Person {
     }
 
     public void setGrade(Grade grade) {
-        this.grade = grade;
+        this.grade.updateValue(grade);
     }
 
     public boolean equals(PersonDto person) {

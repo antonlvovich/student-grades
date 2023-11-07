@@ -37,35 +37,19 @@ public class Grade {
         this.informatics = informatics;
     }
 
-    public Grade(Grade grade) {
-        if (physics <= 0 || physics > 5)
+    public void updateValue(Grade grade) {
+        if (physics != grade.physics && grade.physics > 0 && grade.physics <= 5)
             this.physics = grade.physics;
-        if (mathematics <= 0 || mathematics > 5)
+        if (mathematics != grade.mathematics && grade.mathematics > 0 && grade.mathematics <= 5)
             this.mathematics = grade.mathematics;
-        if (russian <= 0 || russian > 5)
+        if (russian != grade.russian && grade.russian > 0 && grade.russian <= 5)
             this.russian = grade.russian;
-        if (literature <= 0 || literature > 5)
+        if (literature != grade.literature && grade.literature > 0 && grade.literature <= 5)
             this.literature = grade.literature;
-        if (geometry <= 0 || geometry > 5)
+        if (geometry != grade.geometry && grade.geometry > 0 && grade.geometry <= 5)
             this.geometry = grade.geometry;
-        if (informatics <= 0 || informatics > 5)
+        if (informatics != grade.informatics && grade.informatics > 0 && grade.informatics <= 5)
             this.informatics = grade.informatics;
-    }
-
-    public boolean isValid() {
-        if (physics < 0 || physics > 5)
-            return false;
-        if (mathematics < 0 || mathematics > 5)
-            return false;
-        if (russian < 0 || russian > 5)
-            return false;
-        if (literature < 0 || literature > 5)
-            return false;
-        if (geometry < 0 || geometry > 5)
-            return false;
-        if (informatics < 0 || informatics > 5)
-            return false;
-        return true;
     }
 
     public float getMeanGrade() {
