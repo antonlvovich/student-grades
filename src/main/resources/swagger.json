@@ -22,7 +22,7 @@
             "name": "groupId",
             "in": "query",
             "description": "Группа студентов",
-            "required": false,
+            "required": true,
             "style": "form",
             "explode": true,
             "schema": {
@@ -141,14 +141,17 @@
         "properties": {
           "name": {
             "type": "string",
+            "required": true,
             "example": "Даниил"
           },
           "surname": {
             "type": "string",
+            "required": true,
             "example": "Абрамов"
           },
           "group": {
             "type": "integer",
+            "required": true,
             "format": "int32",
             "example": 12
           },
