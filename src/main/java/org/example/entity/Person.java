@@ -7,7 +7,7 @@ public class Person {
     private final String firstName;
     private final int age;
     private final int group;
-    private Grade grade;
+    private final Grade grade;
 
     public Person (String surname, String firstName, int age, int group, Grade grade) {
         this.surname = surname;

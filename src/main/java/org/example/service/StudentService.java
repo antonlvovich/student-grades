@@ -11,7 +11,7 @@ import org.example.util.DataLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentService {
+public class StudentService implements IStudentService {
     private final DataGroup<Integer> personAgeDataGroups;
     private final DataGroup<Integer> classroomDataGroups;
     private final DataGroup<Character> personNameDataGroup;
@@ -55,18 +55,21 @@ public class StudentService {
         return new Person(param[0], param[1], Integer.parseInt(param[2]), Integer.parseInt(param[3]), studentGrades);
     }
 
+    @Override
     public GroupDto<PersonDto> getByGroup(Integer group) {
         List<PersonDto> personDto = new ArrayList<>();
         classroomDataGroups.getPersons(group).forEach(person -> personDto.add(new PersonDto(person)));
         return new GroupDto<>(personDto);
     }
 
+    @Override
     public GroupDto<PersonMeanGradeDto> getMeanGroupGrade(Integer group) {
         List<PersonMeanGradeDto> personDto = new ArrayList<>();
         classroomDataGroups.getPersons(group).forEach(person -> personDto.add(new PersonMeanGradeDto(person)));
         return new GroupDto<>(personDto);
     }
 
+    @Override
     public void changePersonGrade(PersonGradeDto person) {
         if (!person.isValid()) return;
         for (var x : classroomDataGroups.getPersons(person.getGroup())) {
