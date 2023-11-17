@@ -1,0 +1,132 @@
+openapi: 3.0.0
+servers:
+  - url: 127.0.0.1:8080/
+info:
+  version: "1.1.0"
+  title: student-grades
+  description: The API for the Rostelekom project
+paths:
+  /groups/{groupId}:
+    parameters:
+      - in: path
+        name: groupId
+        schema:
+          type: integer
+        required: true
+    get:
+      tags:
+        - postman
+      summary: "Возвращает заданную группу студентов"
+      responses:
+        '200':
+          description: Был успешно возвращен массив студентов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '500':
+          description: Ошибка ввода
+  /groups/{groupId}/avg_marks:
+    parameters:
+      - name: groupId
+        description: Группа студентов
+        required: true
+        schema:
+          type: integer
+        in: path
+    get:
+      tags:
+        - postman
+      summary: Возвращает студентов и их успеваемость из группы
+      responses:
+        '200':
+          description: Был успешно возвращен массив студентов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Persons'
+        '500':
+          description: Ошибка ввода
+  /groups/{groupId}/students/{name}/{surname}/marks/{subjectName}/{mark}:
+    parameters:
+      - name: groupId
+        description: Группа студентов
+        required: true
+        schema:
+          type: integer
+        in: path
+      - name: name
+        description: Имя студента
+        required: true
+        schema:
+          type: string
+        in: path
+      - name: surname
+        description: Фамилия студента
+        required: true
+        schema:
+          type: string
+        in: path
+      - name: subjectName
+        description: Название предмета
+        required: true
+        schema:
+          type: string
+        in: path
+      - name: mark
+        description: Оценка
+        required: true
+        schema:
+          type: integer
+        in: path
+    put:
+      tags:
+        - postman
+      summary: Изменение оценки по предмету у ученика
+      responses:
+        '200':
+          description: Оценки были успешно изменены
+        '400':
+          description: Учащегося с таким данными нет
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        persons:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Даниил
+            surname:
+              type: string
+              example: Абрамов
+        size:
+          type: integer
+          format: int32
+          example: 1
+    Persons:
+      type: object
+      properties:
+        persons:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Даниил
+            surname:
+              type: string
+              example: Абрамов
+            meanGrade:
+              type: number
+              format: double
+              example: 5.0
+        size:
+          type: integer
+          format: int32
+          example: 1

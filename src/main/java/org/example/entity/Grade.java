@@ -1,60 +1,43 @@
 package org.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Grade {
-    @JsonProperty("phys")
-    private int physics;
-    @JsonProperty("math")
-    private int mathematics;
-    @JsonProperty("rus")
-    private int russian;
-    @JsonProperty("lit")
-    private int literature;
-    @JsonProperty("geom")
-    private int geometry;
-    @JsonProperty("inf")
-    private int informatics;
+    private Map<ESubjectType, Integer> marks;
 
     public Grade() {}
 
-    public Grade(int[] marks) {
-        if (marks.length != 6)
-            return;
-        this.physics = marks[0];
-        this.mathematics = marks[1];
-        this.russian = marks[2];
-        this.literature = marks[3];
-        this.geometry = marks[4];
-        this.informatics = marks[5];
+    public Grade(ESubjectType subject, int mark) {
+        this.marks = new HashMap<>();
+        if (mark >= 1 && mark <= 5)
+            marks.put(subject, mark);
     }
-    public Grade(int physics, int mathematics, int russian, int literature, int geometry, int informatics) {
-        this.physics = physics;
-        this.mathematics = mathematics;
-        this.russian = russian;
-        this.literature = literature;
-        this.geometry = geometry;
-        this.informatics = informatics;
+
+    public Grade(int[] subjectMarks) {
+        if (subjectMarks.length != 6)
+            return;
+        this.marks = new HashMap<>();
+        marks.put(ESubjectType.PHYS, subjectMarks[0]);
+        marks.put(ESubjectType.MATH, subjectMarks[1]);
+        marks.put(ESubjectType.RUS, subjectMarks[2]);
+        marks.put(ESubjectType.LIT, subjectMarks[3]);
+        marks.put(ESubjectType.GEOM, subjectMarks[4]);
+        marks.put(ESubjectType.INF, subjectMarks[5]);
     }
 
     public void updateValue(Grade grade) {
-        if (physics != grade.physics && grade.physics > 0 && grade.physics <= 5)
-            this.physics = grade.physics;
-        if (mathematics != grade.mathematics && grade.mathematics > 0 && grade.mathematics <= 5)
-            this.mathematics = grade.mathematics;
-        if (russian != grade.russian && grade.russian > 0 && grade.russian <= 5)
-            this.russian = grade.russian;
-        if (literature != grade.literature && grade.literature > 0 && grade.literature <= 5)
-            this.literature = grade.literature;
-        if (geometry != grade.geometry && grade.geometry > 0 && grade.geometry <= 5)
-            this.geometry = grade.geometry;
-        if (informatics != grade.informatics && grade.informatics > 0 && grade.informatics <= 5)
-            this.informatics = grade.informatics;
+        grade.marks.forEach((key,value) -> {
+            if (value >= 1 && value <= 5)
+                marks.put(key,value);
+        });
     }
 
     public float getMeanGrade() {
-        int sum = physics + mathematics + russian + literature + geometry + informatics;
-        return (float) sum / 6;
+        int sum = 0;
+        for (var mark : marks.values())
+            sum += mark;
+        return (float) sum / marks.size();
     }
 
     public boolean isGradeA() {

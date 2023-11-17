@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.GroupDto;
 import org.example.dto.PersonDto;
+import org.example.dto.PersonGradeDto;
 import org.example.dto.PersonMeanGradeDto;
 import org.example.entity.*;
 import org.example.criterion.*;
@@ -54,24 +55,24 @@ public class StudentService {
         return new Person(param[0], param[1], Integer.parseInt(param[2]), Integer.parseInt(param[3]), studentGrades);
     }
 
-    public GroupDto getMeanGroupGrade(Integer group, int limit) {
-        List<PersonMeanGradeDto> personDto = new ArrayList<>();
-        classroomDataGroups.getPersons(group).forEach(x -> personDto.add(new PersonMeanGradeDto(x)));
-        if (limit > personDto.size())
-            limit = personDto.size();
-        List<PersonMeanGradeDto> finalPersonDto = limit == -1 ? personDto : personDto.subList(0, limit);
-        return new GroupDto(finalPersonDto);
+    public GroupDto<PersonDto> getByGroup(Integer group) {
+        List<PersonDto> personDto = new ArrayList<>();
+        classroomDataGroups.getPersons(group).forEach(person -> personDto.add(new PersonDto(person)));
+        return new GroupDto<>(personDto);
     }
 
-    public boolean changePersonGrade(PersonDto person) {
-        if (!person.isValid()) return false;
-        boolean fl = false;
+    public GroupDto<PersonMeanGradeDto> getMeanGroupGrade(Integer group) {
+        List<PersonMeanGradeDto> personDto = new ArrayList<>();
+        classroomDataGroups.getPersons(group).forEach(person -> personDto.add(new PersonMeanGradeDto(person)));
+        return new GroupDto<>(personDto);
+    }
+
+    public void changePersonGrade(PersonGradeDto person) {
+        if (!person.isValid()) return;
         for (var x : classroomDataGroups.getPersons(person.getGroup())) {
             if (x.equals(person)) {
                 x.setGrade(person.getGrade());
-                fl = true;
             }
         }
-        return fl;
     }
 }

@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class GroupDto {
+public class GroupDto<T> {
     @JsonProperty("persons")
-    private List<PersonMeanGradeDto> personDtoList;
+    private List<T> personDtoList;
     @JsonProperty("size")
     private int size;
 
     public GroupDto() {}
 
-    public GroupDto(List<PersonMeanGradeDto> persons) {
+    public GroupDto(List<T> persons) {
         personDtoList = persons;
         size = persons.size();
     }
 
-    public List<PersonMeanGradeDto> getPersonDtoList() {
+    public List<T> getPersonDtoList() {
         return personDtoList;
     }
 

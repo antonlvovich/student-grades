@@ -1,33 +1,29 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.example.entity.Grade;
 import org.example.entity.Person;
 
-public class PersonDto {
+public class PersonDto{
     @JsonProperty("name")
     private String name;
     @JsonProperty("surname")
     private String surname;
-    @JsonProperty("group")
+    @JsonIgnore
     private int group;
-    @JsonProperty("grade")
-    private Grade grade;
 
     public PersonDto() {}
 
-    public PersonDto(String name, String surname, int group, Grade grade) {
+    public PersonDto(String name, String surname, int group) {
         this.name = name;
         this.surname = surname;
         this.group = group;
-        this.grade = grade;
     }
 
     public PersonDto(Person person) {
         this.name = person.getFirstName();
         this.surname = person.getSurname();
         this.group = person.getGroup();
-        this.grade = person.getGrade();
     }
 
     public int getGroup() {
@@ -54,6 +50,7 @@ public class PersonDto {
         return surname;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         return !name.isBlank() && !surname.isBlank();
     }
@@ -61,9 +58,5 @@ public class PersonDto {
     @Override
     public String toString() {
         return name + " " + surname + " из группы " + group;
-    }
-
-    public Grade getGrade() {
-        return grade;
     }
 }
